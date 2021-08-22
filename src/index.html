@@ -30,7 +30,16 @@
     const msgDiv = document.createElement('div');
     try {
       const message = JSON.parse(event.data);
-      msgDiv.append(`${message.usuario}: ${message.msg}`);
+      
+      if (message?.length) {
+        message.forEach(elem => {
+          const msgs = document.createElement('div');
+          msgs.append(`${elem.usuario}: ${elem.msg}`);
+          msgDiv.append(msgs);
+        });
+      } else {
+        msgDiv.append(`${message.usuario}: ${message.msg}`);
+      }
     } catch {
       msgDiv.append(event.data);
     }

@@ -16,13 +16,17 @@ server.on('connection', (socket) => {
   console.log('Um novo cliente conectou');
   socket.send('Bem vindo ao socket');
 
+  if (messages.length) {
+    socket.send(JSON.stringify(messages));
+  }
+
   // Adiciona cada nova conexão/socket ao array `sockets`
   sockets.push(socket);
 
   // Quando receber uma mensagem, envia ela para todos os sockets
   socket.on('message', (msg) => {
     console.log('Mensagem recebida:' + msg);
-    messages.push(msg);
+    messages.push(JSON.parse(msg.toString()));
     sockets.forEach(s => s.send(msg.toString()));
   });
 
